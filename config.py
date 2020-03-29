@@ -2,7 +2,7 @@ import os
 dia = 'mysql'
 dri = 'pymysql'
 username = 'root'
-password = 'F=mdv/dt123'
+password = 'password'
 host = '127.0.0.1'
 port = '3306'
 database = 'MIE1624EdTool'
