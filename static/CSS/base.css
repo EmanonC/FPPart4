@@ -1,5 +1,5 @@
 .base{
-    background: url(/static/byt.JPG)no-repeat center center;
+    background: url(/static/background.jpg)no-repeat center center;
    background-size:cover;
    background-attachment:fixed;
    background-color:#CCCCCC;
@@ -57,4 +57,9 @@
 #add
 {
     margin-top: 10px;
+}
+
+.navbar.navbar-expand-lg.navbar-light.bg-light
+{
+    opacity: 70%;
 }
