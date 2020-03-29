@@ -100,7 +100,7 @@ class UserTool(DBtool):
         self.db.session.commit()
 
     def findIntership(self):
-        
+        pass
 
 class SMSet(DBtool):
     def UploadSingleSet(self, SetIndex):
