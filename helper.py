@@ -3,6 +3,7 @@ from flask import request, render_template, url_for
 import pickle
 import sys
 from werkzeug.security import generate_password_hash, check_password_hash
+import collections
 
 
 class Uploader:
@@ -94,13 +95,41 @@ class UserTool(DBtool):
 
     def addSkill(self,skillContext):
         skill_id = models.Skill.query.filter_by(skill_context=skillContext).first()
+        if not skill_id:
+            pass
         skill_id = int(skill_id.id)
         dbUserSkill=models.UserSkills(user_id=self.uid,skill_id=skill_id)
         self.db.session.add(dbUserSkill)
         self.db.session.commit()
 
     def findIntership(self):
-        pass
+        userSkills=models.UserSkills.query.filter_by(user_id=self.uid).all()
+        # jobIDList=[]
+        jobCounter=collections.Counter()
+        returnJobs=[]
+        if not userSkills:
+            return []
+        for userSkill in userSkills:
+            skill_id=userSkill.skill_id
+            matchedSkills=models.JobSkill.query.filter_by(skill_id=skill_id).all()
+            for matchedSkill in matchedSkills:
+                jobPost=models.JobPost.query.filter_by(id=matchedSkill.job_post_id).first()
+                if jobPost.id:
+                    # jobIDList.append(jobPost.id)
+                    jobCounter.update([jobPost.id])
+
+        for key,count in jobCounter.most_common():
+            jobPost = models.JobPost.query.filter_by(id=key).first()
+            jobCompany = models.Company.query.filter_by(id=jobPost.company_id).first()
+            returnJobs.append({
+                "job_name": jobPost.name,
+                "company": jobCompany.name
+            })
+
+        return returnJobs
+
+    def intershipDetail(self,jobID):
+        jobPost = models.JobPost.query.filter_by(id=jobID).first()
 
 class SMSet(DBtool):
     def UploadSingleSet(self, SetIndex):

@@ -78,7 +78,38 @@ def user():
     username = session['user']
     return render_template('user.html', user=username)
 
+@app.route('/addskill', methods=["GET", "POST"])
+def addSkill():
+    # if the user are not logged in, redirect to the login page
+    if 'user' not in session:
+        return redirect(url_for('index'))
+    username = session['user']
+    uid = session['uid']
+    if request.method == 'GET':
+        context={}
+        return render_template('add_skill.html', **context)
 
+    else:
+        skillName=request.form.get("skillName")
+        userTool=UserTool(db=db,uid=uid)
+        userTool.addSkill(skillContext=skillName)
+        context = {}
+        return render_template('add_skill.html', **context)
+
+@app.route('/findjob', methods=["GET", "POST"])
+def findJob():
+    # if the user are not logged in, redirect to the login page
+    if 'user' not in session:
+        return redirect(url_for('index'))
+    # username = session['user']
+    uid=session['uid']
+    userTool = UserTool(db=db, uid=uid)
+    jobs=userTool.findIntership()
+    # context = data.getContextforAdding()
+    context={
+        'jobs':jobs[:5],
+    }
+    return render_template('job_list_view.html', **context)
 
 
 @app.route('/uploadcard', methods=['GET', 'POST'])

@@ -1,0 +1,66 @@
+{% extends 'after_login_base.html' %}
+
+{% block title %}Cards{% endblock %}
+
+{% block main %}
+    <form action="{{ url_for('findJob') }}" method="post">
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th scope="col">Job Name</th>
+                <th scope="col">Company</th>
+                {#                <th scope="col">Set Number/Code</th>#}
+                <th scope="col">Details</th>
+{#                <th scope="col">Store Place</th>#}
+{#                <th scope="col">Store Place Type</th>#}
+{#                <th scope="col">Action</th>#}
+
+
+            </tr>
+            </thead>
+            <tbody>
+            {% for job in jobs %}
+                <tr>
+                    <th scope="row">{{ job.job_name}}</th>
+
+                    <td>
+                        <p>{{ job.company }}</p>
+                    </td>
+                    <td>
+                        <a href="#">
+                        <p> view </p>
+                        </a>
+                    </td>
+{#                    <td>#}
+{#                        <p>{{ card.store_place }}</p>#}
+{#                    </td>#}
+{#                    <td>#}
+{#                        <p>{{ card.store_place_type }}</p>#}
+{##}
+{#                    </td>#}
+{#                    <td>#}
+{#                        <p>#</p>#}
+{##}
+{#                    </td>#}
+                </tr>
+            {% endfor %}
+
+
+            </tbody>
+        </table>
+    </form>
+
+    <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
+        <div class="btn-group mx-auto" role="group" aria-label="First group">
+            {% for button in Buttons %}
+                <a href="{{ button.href }}">
+                    <button type="button" class="btn {{ button.class }}">{{ button.text }}</button>
+                </a>
+            {% endfor %}
+
+        </div>
+    </div>
+{% endblock %}
+
+
+
