@@ -7,6 +7,7 @@ from werkzeug.utils import secure_filename
 from werkzeug.security import generate_password_hash, check_password_hash
 from datetime import timedelta
 import os
+from sql_tool import *
 from helper import *
 
 app = Flask(__name__)
@@ -16,7 +17,6 @@ db.init_app(app=app)
 
 with app.app_context():
     db.create_all()
-
 
 @app.route('/')
 def index():
@@ -78,59 +78,50 @@ def user():
     username = session['user']
     return render_template('user.html', user=username)
 
-
-@app.route('/uploadcard', methods=['GET', 'POST'])
-def uploadcard():
+@app.route('/addskill', methods=["GET", "POST"])
+def addSkill():
+    # if the user are not logged in, redirect to the login page
     if 'user' not in session:
         return redirect(url_for('index'))
+    username = session['user']
     uid = session['uid']
-
     if request.method == 'GET':
-        data = staData()
-        context = data.getContextforAdding()
-        return render_template('add_cards.html', **context)
+        context={}
+        return render_template('add_skill.html', **context)
 
     else:
-        context = {
-            'form': request.form,
-            'db': db,
-            'uid': uid
-        }
-        cd = CardUploader(**context)
-        cd.UpoladCard()
-        data = staData()
-        context = data.getContextforAdding()
-        return render_template('add_cards.html', **context)
+        skillName=request.form.get("skillName")
+        userTool=UserTool(db=db,uid=uid)
+        userTool.addSkill(skillContext=skillName)
+        context = {}
+        return render_template('add_skill.html', **context)
 
-
-@app.route('/viewcards')
-def preview():
-    PageNum=int(request.args.get('page'))
+@app.route('/findjob', methods=["GET", "POST"])
+def findJob():
+    # if the user are not logged in, redirect to the login page
     if 'user' not in session:
         return redirect(url_for('index'))
-    uid = session['uid']
-    searchTool=SearchTool(db=db)
-    context=searchTool.get_user_cards(uid,PageNumber=PageNum)
-    return render_template('cards_view.html', **context)
+    # username = session['user']
+    uid=session['uid']
+    userTool = UserTool(db=db, uid=uid)
+    jobs=userTool.findIntership()
+    # context = data.getContextforAdding()
+    context={
+        'jobs':jobs[:5],
+    }
+    return render_template('job_list_view.html', **context)
 
-@app.route('/createstack', methods=["GET", "POST"])
-def CreateStack():
+@app.route('/jobdetail', methods=["GET", "POST"])
+def jobDetail():
+    # if the user are not logged in, redirect to the login page
     if 'user' not in session:
         return redirect(url_for('index'))
-    uid = session['uid']
-    data=staData()
-    context=data.getType()
-    if request.method == 'GET':
-        return render_template('create_stacks.html',**context)
-    else:
-        context2 = {
-            'form': request.form,
-            'db': db,
-            'uid': uid
-        }
-        cs=StackCreater(**context2)
-        cs.CreateStack()
-        return render_template('create_stacks.html',**context)
+    # username = session['user']
+    uid=session['uid']
+    userTool = UserTool(db=db, uid=uid)
+    jobID=request.args.get('job_id')
+    context=userTool.jobDetail(jobID=jobID)
+    return render_template('job_detail.html', **context)
 
 @app.route('/logout', methods=["GET", "POST"])
 def logout():
@@ -145,20 +136,91 @@ def scripts():
     }
     return render_template('scripts.html', **contex)
 
-
-@app.route('/scripts/spider')
-def UploadAll():
-    k = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11,12]
-    Tool=SMSet(db=db)
-    for i in k:
-        Tool.UploadSingleSet(i)
+@app.route('/scripts/uploadskill')
+def uploadSkill():
+    Tool=indeed_data_importer(db=db)
+    Tool.upload_skills()
     contex = {
         'msg': 'Success'
     }
     return render_template('scripts.html', **contex)
 
 
+@app.route('/scripts/uploadjob')
+def uploadJob():
+    Tool=indeed_data_importer(db=db)
+    Tool.upload_jobs()
+    contex = {
+        'msg': 'Success'
+    }
+    return render_template('scripts.html', **contex)
 
+#
+# @app.route('/scripts/spider')
+# def UploadAll():
+#     k = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11,12]
+#     Tool=SMSet(db=db)
+#     for i in k:
+#         Tool.UploadSingleSet(i)
+#     contex = {
+#         'msg': 'Success'
+#     }
+#     return render_template('scripts.html', **contex)
+#
+#
+#
+# @app.route('/uploadcard', methods=['GET', 'POST'])
+# def uploadcard():
+#     if 'user' not in session:
+#         return redirect(url_for('index'))
+#     uid = session['uid']
+#
+#     if request.method == 'GET':
+#         data = staData()
+#         context = data.getContextforAdding()
+#         return render_template('add_cards.html', **context)
+#
+#     else:
+#         context = {
+#             'form': request.form,
+#             'db': db,
+#             'uid': uid
+#         }
+#         cd = CardUploader(**context)
+#         cd.UpoladCard()
+#         data = staData()
+#         context = data.getContextforAdding()
+#         return render_template('add_cards.html', **context)
+
+
+# @app.route('/viewcards')
+# def preview():
+#     PageNum=int(request.args.get('page'))
+#     if 'user' not in session:
+#         return redirect(url_for('index'))
+#     uid = session['uid']
+#     searchTool=SearchTool(db=db)
+#     context=searchTool.get_user_cards(uid,PageNumber=PageNum)
+#     return render_template('cards_view.html', **context)
+#
+# @app.route('/createstack', methods=["GET", "POST"])
+# def CreateStack():
+#     if 'user' not in session:
+#         return redirect(url_for('index'))
+#     uid = session['uid']
+#     data=staData()
+#     context=data.getType()
+#     if request.method == 'GET':
+#         return render_template('create_stacks.html',**context)
+#     else:
+#         context2 = {
+#             'form': request.form,
+#             'db': db,
+#             'uid': uid
+#         }
+#         cs=StackCreater(**context2)
+#         cs.CreateStack()
+#         return render_template('create_stacks.html',**context)
 
 
 

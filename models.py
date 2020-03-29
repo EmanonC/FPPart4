@@ -7,6 +7,93 @@ class User(db.Model):
     username = db.Column(db.String(200), unique=True, nullable=False)
     password = db.Column(db.String(200), nullable=False)
 
+class UserSkills(db.Model):
+    __tablename__ = 'user_skills'
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)\
+
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    skill_user = db.relationship('User', backref=db.backref('skills'))
+
+    skill_id=db.Column(db.Integer, db.ForeignKey('skill.id'))
+
+class Skill(db.Model):
+    __tablename__ = 'skill'
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    skill_context = db.Column(db.String(200))
+    skill_score=db.Column(db.Integer)
+
+class Company(db.Model):
+    __tablename__ = 'company'
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    name = db.Column(db.String(200))
+    type=db.Column(db.String(200))
+
+class Course(db.Model):
+    __tablename__ = 'course'
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    name = db.Column(db.String(200))
+    type=db.Column(db.String(200))
+
+class CourseSkill(db.Model):
+    __tablename__ = 'course_skill'
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+
+    course_id = db.Column(db.Integer, db.ForeignKey('course.id'))
+    course= db.relationship('Course', backref=db.backref('course_skill'))
+
+    skill_id = db.Column(db.Integer, db.ForeignKey('skill.id'))
+
+class UserCourse(db.Model):
+    __tablename__ = 'user_course'
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+
+    name = db.Column(db.String(200))
+    status = db.Column(db.String(200))
+
+    course_id = db.Column(db.Integer, db.ForeignKey('course.id'))
+
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    taked_course = db.relationship('User', backref=db.backref('taked_course'))
+
+class JobPost(db.Model):
+    __tablename__ = 'job_post'
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+
+    name = db.Column(db.String(200))
+    href = db.Column(db.Text)
+    requirement_num=db.Column(db.Integer)
+    skill_num=db.Column(db.Integer)
+
+
+    company_id = db.Column(db.Integer, db.ForeignKey('company.id'))
+    job_posts= db.relationship('Company', backref=db.backref('job_posts'))
+
+class JobSkill(db.Model):
+    __tablename__ = 'job_skill'
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+
+
+    job_post_id = db.Column(db.Integer, db.ForeignKey('job_post.id'))
+    job_post= db.relationship('JobPost', backref=db.backref('job_skill'))
+
+    skill_id = db.Column(db.Integer, db.ForeignKey('skill.id'))
+
+class JobRequirement(db.Model):
+    __tablename__ = 'job_requirement'
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+
+    context = db.Column(db.Text)
+
+    job_post_id = db.Column(db.Integer, db.ForeignKey('job_post.id'))
+    job_post= db.relationship('JobPost', backref=db.backref('job_requirement'))
+
+
+
+
+
+
+
+
 class StorePlace(db.Model):
     __tablename__ = 'store_place'
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)

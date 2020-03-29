@@ -1,0 +1,32 @@
+{% extends 'after_login_base.html' %}
+
+{% block title %}Add Cards{% endblock %}
+
+{% block main %}
+    <form action="{{ url_for('addSkill') }}" method="post">
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th scope="col">SkillName</th>
+
+            </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <input type="text" class="form-control"
+                               placeholder="SkillName"
+                               name="skillName">
+                    </td>
+                </tr>
+
+            </tbody>
+        </table>
+        <button type="submit" class="btn btn-block btn-primary" value="Submit">Submit</button>
+    </form>
+
+
+{% endblock %}
+
+
+
