@@ -87,6 +87,20 @@ class DBtool:
     def __init__(self, db):
         self.db = db
 
+class UserTool(DBtool):
+    def __init__(self, db,uid):
+        super().__init__(db)
+        self.uid=uid
+
+    def addSkill(self,skillContext):
+        skill_id = models.Skill.query.filter_by(skill_context=skillContext).first()
+        skill_id = int(skill_id.id)
+        dbUserSkill=models.UserSkills(user_id=self.uid,skill_id=skill_id)
+        self.db.session.add(dbUserSkill)
+        self.db.session.commit()
+
+    def findIntership(self):
+        
 
 class SMSet(DBtool):
     def UploadSingleSet(self, SetIndex):

@@ -7,6 +7,7 @@ from werkzeug.utils import secure_filename
 from werkzeug.security import generate_password_hash, check_password_hash
 from datetime import timedelta
 import os
+from sql_tool import *
 from helper import *
 
 app = Flask(__name__)
@@ -16,7 +17,6 @@ db.init_app(app=app)
 
 with app.app_context():
     db.create_all()
-
 
 @app.route('/')
 def index():
@@ -77,6 +77,8 @@ def user():
         return redirect(url_for('index'))
     username = session['user']
     return render_template('user.html', user=username)
+
+
 
 
 @app.route('/uploadcard', methods=['GET', 'POST'])
@@ -142,6 +144,25 @@ def logout():
 def scripts():
     contex = {
         'msg': 'Scripts'
+    }
+    return render_template('scripts.html', **contex)
+
+@app.route('/scripts/uploadskill')
+def uploadSkill():
+    Tool=indeed_data_importer(db=db)
+    Tool.upload_skills()
+    contex = {
+        'msg': 'Success'
+    }
+    return render_template('scripts.html', **contex)
+
+
+@app.route('/scripts/uploadjob')
+def uploadJob():
+    Tool=indeed_data_importer(db=db)
+    Tool.upload_jobs()
+    contex = {
+        'msg': 'Success'
     }
     return render_template('scripts.html', **contex)
 
