@@ -27,7 +27,7 @@
                         <p>{{ job.company }}</p>
                     </td>
                     <td>
-                        <a href="#">
+                        <a href="{{ url_for("jobDetail",job_id=job.job_id) }}">
                         <p> view </p>
                         </a>
                     </td>
