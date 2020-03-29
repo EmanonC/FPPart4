@@ -1,8 +1,10 @@
 {% extends 'after_login_base.html' %}
 
-{% block title %}Add Cards{% endblock %}
+{% block title %}Add Skills{% endblock %}
 
 {% block main %}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/core.js" integrity="sha256-36hEPcG8mKookfvUVvEqRkpdYV1unP6wvxIqbgdeVhk=" crossorigin="anonymous"></script>
+    <script src="{{url_for('static', filename='js/skills.js')}}"></script>
     <form action="{{ url_for('addSkill') }}" method="post">
         <table class="table table-striped">
             <thead>
@@ -14,17 +16,30 @@
             <tbody>
                 <tr>
                     <td>
-                        <input type="text" class="form-control"
-                               placeholder="SkillName"
-                               name="skillName">
+                        <div id="shit">
+                            <div class="autocomplete">
+                                <input type="text" class="form-control"
+                                   placeholder="SkillName"
+                                   name="skillName">
+                            </div><br>
+                        </div>
                     </td>
                 </tr>
 
             </tbody>
         </table>
-        <button type="submit" class="btn btn-block btn-primary" value="Submit">Submit</button>
-    </form>
 
+        <button onclick="test();" type="submit" class="btn btn-block btn-primary" value="Submit">Submit</button>
+    </form>
+    <button id="add" class="btn btn-block btn-primary" onclick="add();">Add a skill</button>
+
+    <script>
+    list = document.getElementsByClassName("form-control");
+    for (index = 0; index < list.length; ++index) {
+        console.log(list[index]);
+        autocomplete(list[index], countries);
+    }
+    </script>
 
 {% endblock %}
 

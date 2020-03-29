@@ -11,12 +11,12 @@ class indeed_data_importer:
         self.db = db
 
     def upload_jobs(self):
-        dfJob = pd.read_csv("/Users/yilunhuang/Desktop/Grad/MIE1624/FPPart4/static/data/job_describtion.csv",
+        dfJob = pd.read_csv("/Users/jackzhang/Desktop/projects/FPPart4/static/data/job_describtion.csv",
                             header=None, dtype=str)
         dfJobDes = pd.read_csv(
-            "/Users/yilunhuang/Desktop/Grad/MIE1624/FPPart4/static/data/job_requirement_describtion.csv", header=None,
+            "/Users/jackzhang/Desktop/projects/FPPart4/static/data/job_requirement_describtion.csv", header=None,
             dtype=str)
-        dfSkill = pd.read_csv("/Users/yilunhuang/Desktop/Grad/MIE1624/FPPart4/static/data/skills_clean.csv", header=0,
+        dfSkill = pd.read_csv("/Users/jackzhang/Desktop/projects/FPPart4/static/data/skills_clean.csv", header=0,
                               dtype=str)
 
         n = len(dfSkill)
@@ -74,7 +74,7 @@ class indeed_data_importer:
 
 
     def upload_skills(self):
-        dfSkill = pd.read_csv("/Users/yilunhuang/Desktop/Grad/MIE1624/FPPart4/static/data/skills_clean.csv", header=0)
+        dfSkill = pd.read_csv("/Users/jackzhang/Desktop/projects/FPPart4/static/data/skills_clean.csv", header=0)
         n = len(dfSkill)
         skillList = []
         for i in range(n):
