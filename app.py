@@ -247,6 +247,17 @@ def upload_resume():
             pass
     return render_template('upload_resume.html')
 
+
+@app.route('/add_course', methods=['GET', 'POST'])
+def add_course():
+    if request.method == "POST":
+        try:
+            course_names = request.form.getlist('skillName')
+            #TODO handle with courses
+        except:
+            pass
+    return render_template('add_course.html')
+
 if __name__ == '__main__':
     app.run(debug=True)
     # re = models.Card.query.filter(models.Card.set_id == '1').all()[0]
