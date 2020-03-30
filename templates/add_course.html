@@ -31,5 +31,11 @@
         <button type="button" class="btn btn-block btn-primary" onclick="add();">Add a course</button>
         <button type="submit" class="btn btn-block btn-primary" value="Submit">Submit</button>
     </form>
-
+    <script>
+        list = document.getElementsByClassName("form-control");
+        for (index = 0; index < list.length; ++index) {
+            console.log(list[index]);
+            autocomplete(list[index], countries);
+        }
+    </script>
 {% endblock %}
