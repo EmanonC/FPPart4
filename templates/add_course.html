@@ -1,0 +1,34 @@
+{% extends 'after_login_base.html' %}
+
+{% block title %}Location{% endblock %}
+
+{% block main %}
+    <script src="{{url_for('static', filename='js/add_course.js')}}"></script>
+    <form action="{{ url_for('add_course') }}" method="post">
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th scope="col">What are the courses you have taken?</th>
+
+            </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <div id="shit">
+                            <div class="autocomplete">
+                                <input type="text" class="form-control"
+                                   placeholder="Course Name"
+                                   name="skillName">
+                            </div><br>
+                        </div>
+                    </td>
+                </tr>
+
+            </tbody>
+        </table>
+        <button type="button" class="btn btn-block btn-primary" onclick="add();">Add a course</button>
+        <button type="submit" class="btn btn-block btn-primary" value="Submit">Submit</button>
+    </form>
+
+{% endblock %}

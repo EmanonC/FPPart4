@@ -93,10 +93,14 @@ def addSkill():
         try:
             skillNames = request.form.getlist('skillName')
             for skillName in skillNames:
-                userTool=UserTool(db=db,uid=uid)
-                userTool.addSkill(skillContext=skillName)
-                context = {}
-            return redirect(url_for('findJob'))
+                try:
+                    userTool=UserTool(db=db,uid=uid)
+                    userTool.addSkill(skillContext=skillName)
+                    context = {}
+                except:
+                    context = {}
+                    pass
+            return redirect(url_for('findLocation'))
         except:
             return render_template('add_skill.html', **context)
 
@@ -114,6 +118,12 @@ def findJob():
         'jobs':jobs[:5],
     }
     return render_template('job_list_view.html', **context)
+
+
+@app.route('/location')
+def findLocation():
+    return render_template('location_selection.html')
+
 
 @app.route('/jobdetail', methods=["GET", "POST"])
 def jobDetail():
@@ -227,7 +237,26 @@ def uploadJob():
 #         return render_template('create_stacks.html',**context)
 
 
+@app.route('/upload', methods=['GET', 'POST'])
+def upload_resume():
+    if request.method == "POST":
+        try:
+            file = request.files['file']
+            # TODO Do something with the resume
+        except:
+            pass
+    return render_template('upload_resume.html')
 
+
+@app.route('/add_course', methods=['GET', 'POST'])
+def add_course():
+    if request.method == "POST":
+        try:
+            course_names = request.form.getlist('skillName')
+            #TODO handle with courses
+        except:
+            pass
+    return render_template('add_course.html')
 
 if __name__ == '__main__':
     app.run(debug=True)
