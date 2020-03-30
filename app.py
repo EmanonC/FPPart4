@@ -115,7 +115,7 @@ def findJob():
     jobs=userTool.findIntership()
     # context = data.getContextforAdding()
     context={
-        'jobs':jobs[:5],
+        'jobs':jobs[:15],
     }
     return render_template('job_list_view.html', **context)
 
@@ -137,11 +137,40 @@ def jobDetail():
     context=userTool.jobDetail(jobID=jobID)
     return render_template('job_detail.html', **context)
 
+
+@app.route('/upload', methods=['GET', 'POST'])
+def upload_resume():
+    if request.method == "POST":
+        try:
+            file = request.files['file']
+            print(file)
+        except:
+            pass
+    return render_template('upload_resume.html')
+
+
+@app.route('/add_course', methods=['GET', 'POST'])
+def add_course():
+    if request.method == "POST":
+        try:
+            uid = session['uid']
+            course_names = request.form.getlist('skillName')
+            userTool = UserTool(db=db, uid=uid)
+            userTool.addSkillFromCourse(courseNameList=course_names)
+            #TODO handle with courses
+        except:
+            pass
+    return render_template('add_course.html')
+
+
 @app.route('/logout', methods=["GET", "POST"])
 def logout():
     session.pop('user', None)
     return redirect(url_for('index'))
 
+
+
+#Scriptes start
 
 @app.route('/scripts')
 def scripts():
@@ -169,96 +198,7 @@ def uploadJob():
     }
     return render_template('scripts.html', **contex)
 
-#
-# @app.route('/scripts/spider')
-# def UploadAll():
-#     k = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11,12]
-#     Tool=SMSet(db=db)
-#     for i in k:
-#         Tool.UploadSingleSet(i)
-#     contex = {
-#         'msg': 'Success'
-#     }
-#     return render_template('scripts.html', **contex)
-#
-#
-#
-# @app.route('/uploadcard', methods=['GET', 'POST'])
-# def uploadcard():
-#     if 'user' not in session:
-#         return redirect(url_for('index'))
-#     uid = session['uid']
-#
-#     if request.method == 'GET':
-#         data = staData()
-#         context = data.getContextforAdding()
-#         return render_template('add_cards.html', **context)
-#
-#     else:
-#         context = {
-#             'form': request.form,
-#             'db': db,
-#             'uid': uid
-#         }
-#         cd = CardUploader(**context)
-#         cd.UpoladCard()
-#         data = staData()
-#         context = data.getContextforAdding()
-#         return render_template('add_cards.html', **context)
 
-
-# @app.route('/viewcards')
-# def preview():
-#     PageNum=int(request.args.get('page'))
-#     if 'user' not in session:
-#         return redirect(url_for('index'))
-#     uid = session['uid']
-#     searchTool=SearchTool(db=db)
-#     context=searchTool.get_user_cards(uid,PageNumber=PageNum)
-#     return render_template('cards_view.html', **context)
-#
-# @app.route('/createstack', methods=["GET", "POST"])
-# def CreateStack():
-#     if 'user' not in session:
-#         return redirect(url_for('index'))
-#     uid = session['uid']
-#     data=staData()
-#     context=data.getType()
-#     if request.method == 'GET':
-#         return render_template('create_stacks.html',**context)
-#     else:
-#         context2 = {
-#             'form': request.form,
-#             'db': db,
-#             'uid': uid
-#         }
-#         cs=StackCreater(**context2)
-#         cs.CreateStack()
-#         return render_template('create_stacks.html',**context)
-
-
-@app.route('/upload', methods=['GET', 'POST'])
-def upload_resume():
-    if request.method == "POST":
-        try:
-            file = request.files['file']
-            # TODO Do something with the resume
-        except:
-            pass
-    return render_template('upload_resume.html')
-
-
-@app.route('/add_course', methods=['GET', 'POST'])
-def add_course():
-    if request.method == "POST":
-        try:
-            course_names = request.form.getlist('skillName')
-            #TODO handle with courses
-        except:
-            pass
-    return render_template('add_course.html')
 
 if __name__ == '__main__':
     app.run(debug=True)
-    # re = models.Card.query.filter(models.Card.set_id == '1').all()[0]
-    # print(re.card_name)
