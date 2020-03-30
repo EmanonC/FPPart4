@@ -237,7 +237,15 @@ def uploadJob():
 #         return render_template('create_stacks.html',**context)
 
 
-
+@app.route('/upload', methods=['GET', 'POST'])
+def upload_resume():
+    if request.method == "POST":
+        try:
+            file = request.files['file']
+            # TODO Do something with the resume
+        except:
+            pass
+    return render_template('upload_resume.html')
 
 if __name__ == '__main__':
     app.run(debug=True)

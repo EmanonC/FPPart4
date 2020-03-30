@@ -1,0 +1,19 @@
+{% extends 'after_login_base.html' %}
+
+{% block title %}Add Skills{% endblock %}
+
+{% block main %}
+
+    <form action="{{ url_for('upload_resume') }}" enctype="multipart/form-data" method="POST">
+        <div class="custom-file">
+            <input type="file" class="custom-file-input" id="customFile">
+            <label class="custom-file-label" for="customFile">Choose file</label>
+        </div>
+        <button type="submit" class="btn btn-primary btn-block">Upload Resume</button>
+
+
+
+
+    </form>
+
+{% endblock %}
