@@ -1,0 +1,41 @@
+{% extends 'after_login_base.html' %}
+
+{% block title %}Location{% endblock %}
+
+{% block main %}
+
+    <select class="browser-default custom-select">
+        <option selected>Select a province</option>
+        <option value="1">Ontario</option>
+        <option value="2">Quebec</option>
+        <option value="3">Nova Scotia</option>
+        <option value="3">New Brunswick</option>
+        <option value="3">Manitoba</option>
+        <option value="3">British Columbia</option>
+        <option value="3">Prince Edward Island</option>
+        <option value="3">Saskatchewan</option>
+        <option value="3">Alberta</option>
+        <option value="3">Newfoundland and Labrador</option>
+    </select>
+
+    <br>
+
+    <select class="browser-default custom-select">
+        <option selected>Select a city</option>
+        <option selected>Toronto</option>
+        <option selected>Ottawa</option>
+        <option selected>Brampton</option>
+        <option selected>Hamilton</option>
+        <option selected>London</option>
+        <option selected>Richmond Hill</option>
+        <option selected>Vaughan</option>
+        <option selected>Kitchener</option>
+        <option selected>Windsor</option>
+        <option selected>Mississauga</option>
+    </select>
+
+    <br>
+
+    <a class="btn btn-block btn-primary" href="{{ url_for('findJob') }}">Submit</a>
+
+{% endblock %}

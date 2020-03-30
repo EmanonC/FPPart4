@@ -93,10 +93,14 @@ def addSkill():
         try:
             skillNames = request.form.getlist('skillName')
             for skillName in skillNames:
-                userTool=UserTool(db=db,uid=uid)
-                userTool.addSkill(skillContext=skillName)
-                context = {}
-            return redirect(url_for('findJob'))
+                try:
+                    userTool=UserTool(db=db,uid=uid)
+                    userTool.addSkill(skillContext=skillName)
+                    context = {}
+                except:
+                    context = {}
+                    pass
+            return redirect(url_for('findLocation'))
         except:
             return render_template('add_skill.html', **context)
 
@@ -114,6 +118,12 @@ def findJob():
         'jobs':jobs[:5],
     }
     return render_template('job_list_view.html', **context)
+
+
+@app.route('/location')
+def findLocation():
+    return render_template('location_selection.html')
+
 
 @app.route('/jobdetail', methods=["GET", "POST"])
 def jobDetail():

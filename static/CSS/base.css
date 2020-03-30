@@ -11,7 +11,7 @@
     filter:alpha(opacity=40);
     width:1090px;
     margin: 0 auto;
-    overflow: hidden;
+    overflow: visible;
     padding: 10px;
 }
 
@@ -62,4 +62,18 @@
 .navbar.navbar-expand-lg.navbar-light.bg-light
 {
     opacity: 70%;
+}
+
+.btn.btn-block.btn-primary
+{
+    margin: 10px auto;
+    display: block;
+    width: 20vw;
+}
+
+.browser-default.custom-select
+{
+    margin: auto;
+    display: block;
+    width: 30vw;
 }
