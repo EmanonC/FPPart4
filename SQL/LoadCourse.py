@@ -5,11 +5,11 @@ from sqlalchemy.ext.declarative import declarative_base
 from models import *
 from config import SQLALCHEMY_DATABASE_URI
 
-dfJob = pd.read_csv("/Users/yilunhuang/Desktop/Grad/MIE1624/FPPart4/static/data/job_describtion.csv", header=None)
-dfJobDes = pd.read_csv("/Users/yilunhuang/Desktop/Grad/MIE1624/FPPart4/static/data/job_requirement_describtion.csv",
+dfJob = pd.read_csv("/Users/jackzhang/Desktop/projects/FPPart4/static/data/job_describtion.csv", header=None)
+dfJobDes = pd.read_csv("/Users/jackzhang/Desktop/projects/FPPart4/static/data/job_requirement_describtion.csv",
                        header=None)
-dfSkill = pd.read_csv("/Users/yilunhuang/Desktop/Grad/MIE1624/FPPart4/static/data/skills_clean.csv", header=0)
-dfCourese = pd.read_csv("/Users/yilunhuang/Desktop/Grad/MIE1624/FPPart4/static/data/course_vs_skills.csv", header=0)
+dfSkill = pd.read_csv("/Users/jackzhang/Desktop/projects/FPPart4/static/data/skills_clean.csv", header=0)
+dfCourese = pd.read_csv("/Users/jackzhang/Desktop/projects/FPPart4/static/data/course_vs_skills.csv", header=0)
 
 db = declarative_base()
 engine = create_engine(SQLALCHEMY_DATABASE_URI, encoding='utf-8', echo=True)

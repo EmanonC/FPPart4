@@ -11,7 +11,7 @@ function  add() {
     form.placeholder = "SkillName";
     autocomplete(form, countries);
 
-    new_div.appendChild(form)
+    new_div.appendChild(form);
     var br = document.createElement("br");
     // new_div.appendChild(br)
 
