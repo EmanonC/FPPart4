@@ -8,14 +8,26 @@
     <div class="button-list">
         <div class="btn-group-vertical">
             <a href="{{ url_for('addSkill') }}" class="button">
-                <button type="button" class="btn btn-outline-primary btn-block">addSkill</button>
+                <button type="button" class="btn btn-outline-primary btn-block">Add Skill</button>
             </a>
         </div>
         <div class="btn-group-vertical">
             <a href="{{ url_for('findJob') }}" class="button">
-                <button type="button" class="btn btn-outline-primary btn-block">findJob</button>
+                <button type="button" class="btn btn-outline-primary btn-block">Find Job</button>
             </a>
         </div>
     </div>
     <br>
+        <div class="button-list">
+        <div class="btn-group-vertical">
+            <a href="{{ url_for('add_course') }}" class="button">
+                <button type="button" class="btn btn-outline-primary btn-block">Add Courses</button>
+            </a>
+        </div>
+        <div class="btn-group-vertical">
+            <a href="{{ url_for('viewAllSkills') }}" class="button">
+                <button type="button" class="btn btn-outline-primary btn-block">View Your Skills</button>
+            </a>
+        </div>
+    </div>
 {% endblock %}

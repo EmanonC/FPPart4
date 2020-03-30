@@ -3,7 +3,7 @@
 {% block title %}Add Skills{% endblock %}
 
 {% block main %}
-
+    <h3 class="page-title">{{ msg }}</h3>
     <form action="{{ url_for('upload_resume') }}" enctype="multipart/form-data" method="POST">
         <div class="custom-file">
             <input type="file" class="custom-file-input" id="customFile" name="resume">

@@ -119,6 +119,16 @@ def findJob():
     }
     return render_template('job_list_view.html', **context)
 
+@app.route('/viewskills', methods=["GET", "POST"])
+def viewAllSkills():
+    # if the user are not logged in, redirect to the login page
+    if 'user' not in session:
+        return redirect(url_for('index'))
+    # username = session['user']
+    uid=session['uid']
+    userTool = UserTool(db=db, uid=uid)
+    context=userTool.skillViewContext()
+    return render_template('view_user_skills.html', **context)
 
 @app.route('/location')
 def findLocation():
@@ -140,26 +150,37 @@ def jobDetail():
 
 @app.route('/upload', methods=['GET', 'POST'])
 def upload_resume():
+    uid = session['uid']
+    context={}
     if request.method == "POST":
         try:
             file = request.files['resume']
-            print(file)
+            # file.save(f"/Users/yilunhuang/Desktop/Grad/MIE1624/FPPart4/UserData/{uid}/resume.pdf")
+            file_name=os.path.join("/Users/yilunhuang/Desktop/Grad/MIE1624/FPPart4/UserData", f"{uid}resume.pdf")
+            file.save(file_name)
+            userTool = UserTool(db=db, uid=uid)
+            userTool.addSkillFromPDFFile(filename=file_name)
+            context.update({'msg':"Success!"})
+
         except:
             pass
-    return render_template('upload_resume.html')
+    return render_template('upload_resume.html',**context)
 
 
 @app.route('/add_course', methods=['GET', 'POST'])
 def add_course():
+    context = {}
     if request.method == "POST":
         try:
             uid = session['uid']
             course_names = request.form.getlist('skillName')
             userTool = UserTool(db=db, uid=uid)
             userTool.addSkillFromCourse(courseNameList=course_names)
+            context.update({'msg': "Success!"})
         except:
+            context.update({'msg': "Course Not Found"})
             pass
-    return render_template('add_course.html')
+    return render_template('add_course.html',**context)
 
 
 @app.route('/logout', methods=["GET", "POST"])

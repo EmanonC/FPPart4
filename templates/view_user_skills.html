@@ -3,29 +3,20 @@
 {% block title %}Job detail{% endblock %}
 
 {% block main %}
-    <p>Job Name : {{ job_name }}</p>
-    <p>Company :  {{ company_name }}</p>
 
-    <a href="{{ job_url }}">
-    <p>
-        Apply Now
-    </p>
-    </a>
     <form action="{{ url_for('findJob') }}" method="post">
         <table class="table table-striped">
             <thead>
             <tr>
-                <th scope="col">Requirements</th>
-{#                <th scope="col">Company</th>#}
-{#                <th scope="col">Details</th>#}
+                <th scope="col">Skills</th>
 
 
             </tr>
             </thead>
             <tbody>
-            {% for requirement in requirements %}
+            {% for skill in skills %}
                 <tr>
-                    <th scope="row">{{ requirement.context}}</th>
+                    <th scope="row">{{ skill.context}}</th>
 
                 </tr>
             {% endfor %}

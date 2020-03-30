@@ -30,9 +30,9 @@ class indeed_data_importer:
         for i in range(n):
             row = dfJob.iloc[i]
             jobID = str(row[0])
-            url = str(row[0])
+            url = str(row[1])
             if "https://ca.indeed.com" not in url:
-                url = "https://ca.indeed.com" + url
+                url = "https://ca.indeed.com/" + url
             jobName = str(row[2])
             companyName = str(row[3])
             companyDB = models.Company.query.filter_by(name=companyName).first()

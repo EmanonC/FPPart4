@@ -18,6 +18,8 @@ def read_pdf(fileName):
         retstr.close()
 
         lines = str(content).split("\n")
-        return lines
-s=" ".join(read_pdf(fileName="/Users/yilunhuang/Desktop/Grad/MIE1624/FPPart4/static/data/test1.pdf"))
-print(s.replace('  ',' '))
+        s=' '.join(lines)
+        s=s.replace('  ',' ')
+        s=s.replace('  ',' ')
+        return s
+print(read_pdf('/Users/yilunhuang/Desktop/Grad/MIE1624/FPPart4/UserData/2resume.pdf'))

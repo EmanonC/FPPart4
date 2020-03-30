@@ -5,6 +5,30 @@ import sys
 from werkzeug.security import generate_password_hash, check_password_hash
 import collections
 
+from io import StringIO
+from io import open
+from pdfminer.converter import TextConverter
+from pdfminer.layout import LAParams
+from pdfminer.pdfinterp import PDFResourceManager, process_pdf
+
+
+def read_pdf(fileName):
+    with open(fileName, "rb") as pdf:
+        rsrcmgr = PDFResourceManager()
+        retstr = StringIO()
+        laparams = LAParams()
+
+        device = TextConverter(rsrcmgr, retstr, laparams=laparams)
+        process_pdf(rsrcmgr, device, pdf)
+        device.close()
+        content = retstr.getvalue()
+        retstr.close()
+
+        lines = str(content).split("\n")
+        s=' '.join(lines)
+        s=s.replace('  ',' ')
+        s=s.replace('  ',' ')
+        return s
 
 
 
@@ -37,6 +61,20 @@ class UserTool(DBtool):
                         dbUserSkill = models.UserSkills(user_id=self.uid, skill_id=skillTableSkill.id)
                         self.db.session.add(dbUserSkill)
                         self.db.session.commit()
+    def addSkillFromPDFFile(self,filename):
+        print(filename)
+        try:
+            s=read_pdf(fileName=filename)
+            skillTableSkill = models.Skill.query.all()
+            for skillTableSkilli in skillTableSkill:
+                skill_context=skillTableSkilli.skill_context
+                if ' ' in skill_context and skill_context in s:
+                    self.addSkill(skill_context)
+                elif skill_context in s.split(' '):
+                    self.addSkill(skill_context)
+        except:
+            print("file error")
+
 
     def isSkillExsist(self,skillID):
         skillTableSkill = models.UserSkills.query.filter_by(user_id=self.uid,skill_id=skillID).first()
@@ -66,7 +104,7 @@ class UserTool(DBtool):
             returnJobs.append({
                 "job_name": jobPost.name,
                 "company": jobCompany.name,
-                "job_id":key
+                "job_id":key,
             })
 
         return returnJobs
@@ -83,7 +121,20 @@ class UserTool(DBtool):
         context={
             "job_name":jobPost.name,
             "company_name":jobCompany.name,
-            "requirements":requirementList
+            "requirements":requirementList,
+            "job_url": jobPost.href,
+        }
+        return context
+
+    def skillViewContext(self):
+        userSkills=models.UserSkills.query.filter_by(user_id=self.uid).all()
+        userSkillList=[]
+        for userSkilli in userSkills:
+            skillTableSkill = models.Skill.query.filter_by(id=userSkilli.skill_id).first()
+            userSkillList.append({'context':skillTableSkill.skill_context})
+
+        context={
+            'skills':userSkillList
         }
         return context
 

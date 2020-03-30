@@ -9,8 +9,9 @@ port = '3306'
 database = 'MIE1624EdTool'
 
 SQLALCHEMY_DATABASE_URI="{}+{}://{}:{}@{}:{}/{}?charset=utf8".format(dia,dri,username,password,host,port,database)
-
 SQLALCHEMY_TRACK_MODIFICATIONS=True
+
+
 
 Debug=True
 
