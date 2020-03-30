@@ -157,7 +157,6 @@ def add_course():
             course_names = request.form.getlist('skillName')
             userTool = UserTool(db=db, uid=uid)
             userTool.addSkillFromCourse(courseNameList=course_names)
-            #TODO handle with courses
         except:
             pass
     return render_template('add_course.html')
