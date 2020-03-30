@@ -142,7 +142,7 @@ def jobDetail():
 def upload_resume():
     if request.method == "POST":
         try:
-            file = request.files['file']
+            file = request.files['resume']
             print(file)
         except:
             pass

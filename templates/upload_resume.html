@@ -6,7 +6,7 @@
 
     <form action="{{ url_for('upload_resume') }}" enctype="multipart/form-data" method="POST">
         <div class="custom-file">
-            <input type="file" class="custom-file-input" id="customFile">
+            <input type="file" class="custom-file-input" id="customFile" name="resume">
             <label class="custom-file-label" for="customFile">Choose file</label>
         </div>
         <button type="submit" class="btn btn-primary btn-block">Upload Resume</button>
